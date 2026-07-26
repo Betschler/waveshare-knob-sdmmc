@@ -269,6 +269,7 @@ async def to_code(config):
         # This avoids all race conditions and does not affect the bootloader
         # (which has its own separate CMakeLists.txt).
         build_path = Path(CORE.build_path)
+        build_path.mkdir(parents=True, exist_ok=True)
         patch_script = build_path / "sd_mmc_cmake_patch.py"
         patch_script.write_text(
             _PATCH_SCRIPT.format(deps=repr(_IDF_DEPS))
