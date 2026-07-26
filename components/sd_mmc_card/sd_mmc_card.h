@@ -97,6 +97,7 @@ class SdMmcCard : public Component {
   CardType card_type_{CardType::UNKNOWN};
   sdmmc_card_t *card_{nullptr};
   uint32_t card_freq_khz_{0};
+  uint32_t last_update_{0};
 
   // sensors
   sensor::Sensor *total_space_sensor_{nullptr};

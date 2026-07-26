@@ -68,8 +68,8 @@ bool SdMmcCard::mount_card_() {
 
   update_card_info_();
 
-  ESP_LOGI(TAG, "Mounted at %s (%s-bit, %d kHz)",
-           MOUNT_POINT, mode_1bit_ ? "1" : "4", card_freq_khz_);
+  ESP_LOGI(TAG, "Mounted at %s (%s-bit, %u kHz)",
+           MOUNT_POINT, mode_1bit_ ? "1" : "4", (unsigned) card_freq_khz_);
   return true;
 }
 
@@ -118,7 +118,7 @@ void SdMmcCard::dump_config() {
   ESP_LOGCONFIG(TAG, "  Mount: %s", MOUNT_POINT);
   ESP_LOGCONFIG(TAG, "  Mode: %s-bit", mode_1bit_ ? "1" : "4");
   ESP_LOGCONFIG(TAG, "  Card Type: %s", card_type_string_().c_str());
-  ESP_LOGCONFIG(TAG, "  Frequency (max): %d kHz", card_freq_khz_);
+  ESP_LOGCONFIG(TAG, "  Frequency (max): %u kHz", (unsigned) card_freq_khz_);
   ESP_LOGCONFIG(TAG, "  Filesystem: %s", fs_type_string_().c_str());
   ESP_LOGCONFIG(TAG, "  Sensors: total=%s used=%s free=%s freq=%s file_size=%s",
                 total_space_sensor_ ? "on" : "off",
