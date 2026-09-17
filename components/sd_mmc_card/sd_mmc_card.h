@@ -41,6 +41,7 @@ class SdMmcCard : public Component {
   void set_data2_pin(uint8_t pin) { d2_pin_ = pin; }
   void set_data3_pin(uint8_t pin) { d3_pin_ = pin; }
   void set_mode_1bit(bool v) { mode_1bit_ = v; }
+  void set_max_frequency_khz(uint32_t khz) { max_freq_khz_ = khz; }
 
   // file operations
   bool write_file(const std::string &path, const std::string &data);
@@ -93,6 +94,7 @@ class SdMmcCard : public Component {
 
   uint8_t clk_pin_{0}, cmd_pin_{0}, d0_pin_{0}, d1_pin_{0}, d2_pin_{0}, d3_pin_{0};
   bool mode_1bit_{false};
+  uint32_t max_freq_khz_{20000};
 
   CardType card_type_{CardType::UNKNOWN};
   sdmmc_card_t *card_{nullptr};

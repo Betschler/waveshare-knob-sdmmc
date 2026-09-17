@@ -44,6 +44,8 @@ void SdMmcCard::setup() {
 
 bool SdMmcCard::mount_card_() {
   sdmmc_host_t host = SDMMC_HOST_DEFAULT();
+  // The card is switched to high speed only if it supports it
+  host.max_freq_khz = static_cast<int>(max_freq_khz_);
   sdmmc_slot_config_t slot = SDMMC_SLOT_CONFIG_DEFAULT();
 
   slot.clk = (gpio_num_t) clk_pin_;
@@ -118,7 +120,8 @@ void SdMmcCard::dump_config() {
   ESP_LOGCONFIG(TAG, "  Mount: %s", MOUNT_POINT);
   ESP_LOGCONFIG(TAG, "  Mode: %s-bit", mode_1bit_ ? "1" : "4");
   ESP_LOGCONFIG(TAG, "  Card Type: %s", card_type_string_().c_str());
-  ESP_LOGCONFIG(TAG, "  Frequency (max): %u kHz", (unsigned) card_freq_khz_);
+  ESP_LOGCONFIG(TAG, "  Frequency: %u kHz (allowed up to %u kHz)", (unsigned) card_freq_khz_,
+                (unsigned) max_freq_khz_);
   ESP_LOGCONFIG(TAG, "  Filesystem: %s", fs_type_string_().c_str());
   ESP_LOGCONFIG(TAG, "  Sensors: total=%s used=%s free=%s freq=%s file_size=%s",
                 total_space_sensor_ ? "on" : "off",

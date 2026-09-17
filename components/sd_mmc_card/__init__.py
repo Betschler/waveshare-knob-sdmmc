@@ -25,6 +25,7 @@ CONF_DATA1_PIN = "data1_pin"
 CONF_DATA2_PIN = "data2_pin"
 CONF_DATA3_PIN = "data3_pin"
 CONF_MODE_1BIT = "mode_1bit"
+CONF_MAX_FREQUENCY = "max_frequency"
 
 _IDF_DEPS = ["fatfs", "sdmmc", "esp_driver_sdmmc"]
 
@@ -225,6 +226,11 @@ CONFIG_SCHEMA = cv.All(
             cv.Optional(CONF_DATA2_PIN): pins.internal_gpio_pin_number,
             cv.Optional(CONF_DATA3_PIN): pins.internal_gpio_pin_number,
             cv.Optional(CONF_MODE_1BIT, default=False): cv.boolean,
+            # 40MHz (high speed) reads a good card about 1.5x as fast; a card
+            # without high speed keeps working at the default 20MHz
+            cv.Optional(CONF_MAX_FREQUENCY, default="20MHz"): cv.All(
+                cv.frequency, cv.Range(min=400e3, max=40e6)
+            ),
         }
     ).extend(cv.COMPONENT_SCHEMA),
     _validate_pins,
@@ -239,6 +245,7 @@ async def to_code(config):
     cg.add(var.set_cmd_pin(config[CONF_CMD_PIN]))
     cg.add(var.set_data0_pin(config[CONF_DATA0_PIN]))
     cg.add(var.set_mode_1bit(config[CONF_MODE_1BIT]))
+    cg.add(var.set_max_frequency_khz(int(config[CONF_MAX_FREQUENCY] / 1000)))
 
     if not config[CONF_MODE_1BIT]:
         cg.add(var.set_data1_pin(config[CONF_DATA1_PIN]))

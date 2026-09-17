@@ -48,6 +48,7 @@ custom_components/
 sd_mmc_card:
   id: esp_sd_card
   mode_1bit: false       # optional (default false)
+  max_frequency: 20MHz   # optional (default 20MHz); 40MHz for high-speed cards
   clk_pin: GPIO4         # required
   cmd_pin: GPIO3         # required
   data0_pin: GPIO5       # required
